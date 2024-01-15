@@ -1,0 +1,16 @@
+<h1>Realizando pruebas</h1>
+<hr>
+<h1>Componete 1</h1>
+
+<button (click)="aumentarEdad()">Incrementar</button>
+<button (click)="bajarEdad()">Disminuir</button>
+<h3 [style.background]="edad >= 18 ? 'green': 'red' "
+    [style.color]="'white'">La edad es: {{edad}}</h3>
+<div *ngIf="edad >= 18">
+    Eres mayor
+</div>
+
+<div *ngIf="edad < 18">
+    Eres menor
+</div>
+

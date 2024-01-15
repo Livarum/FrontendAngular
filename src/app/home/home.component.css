@@ -1,0 +1,7 @@
+/* home.component.css */
+.content-container {
+  min-height: 70vh; /* Adjust this value as needed */
+  padding-bottom: 100px; /* Adjust this value to match the height of the footer */
+  box-sizing: border-box;
+}
+

@@ -1,0 +1,39 @@
+/* home.component.css */
+
+.content-container {
+  min-height: 70vh;
+  padding-bottom: 50px;
+  box-sizing: border-box;
+}
+
+/* Adjust Bootstrap button size */
+.btn {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+/* Reduce padding on table cells */
+.table th, .table td {
+  padding: 5px;
+}
+
+/* Reduce modal size */
+.modal-dialog {
+  max-width: 70%;
+  margin: 1.75rem auto;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Reduce spacing between table rows */
+tbody tr {
+  margin-bottom: 2px;
+}
+
+/* Reduce the size of the spinner */
+.spinner-border {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Add any other custom styles as needed */

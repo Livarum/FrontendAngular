@@ -1,0 +1,82 @@
+<div class="modal-header bg-primary text-white">
+    <h5 class="modal-title mt-0">{{ title }}</h5>
+    <button type="button" class="btn-close text-white" data-dismiss="modal" aria-label="Close" (click)="cerrarModal()">
+        <span aria-hidden="true"></span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="text-center" *ngIf="!mostrar">
+        <div class="spinner-border text-primary m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <form [formGroup]="formModal" *ngIf="mostrar">
+        <div class="alert alert-danger" role="alert" *ngIf="mostrarError">
+            {{ mensajeError }}
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label requerido">Nombre *</label>
+                    <div>
+                        <input
+                            class="form-control"
+                            formControlName="name"
+                            placeholder="Ingresar Nombre"
+                            maxlength="255"
+                            [style]="{ width: '100%' }"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="form-label requerido">Descripción *</label>
+                    <div>
+                        <textarea
+                            class="form-control"
+                            formControlName="description"
+                            placeholder="Ingresar Descripción"
+                            maxlength="255"
+                            [style]="{ width: '100%' }"
+                        ></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label requerido">Precio *</label>
+                    <div>
+                        <input
+                            class="form-control"
+                            formControlName="price"
+                            placeholder="Ingresar Precio"
+                            [style]="{ width: '100%' }"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button
+        type="submit"
+        class="btn btn-primary"
+        *ngIf="accion == 'create'"
+        (click)="create($event)"
+        [disabled]="formModal.invalid"
+    >
+        Guardar
+    </button>
+    <button
+        type="submit"
+        class="btn btn-primary"
+        *ngIf="accion == 'edit'"
+        (click)="edit($event)"
+        [disabled]="formModal.invalid"
+    >
+        Editar
+    </button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarModal()">Cerrar</button>
+</div>

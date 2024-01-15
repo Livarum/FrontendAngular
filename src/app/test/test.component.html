@@ -1,0 +1,70 @@
+<!-- breadcrumb item -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header bg-primary bg-soft border-bottom text-uppercase">
+        <div class="row">
+          <div class="col-md-4 col-9">
+            <h4 class="mb-0 font-size-18">Productos</h4>
+          </div>
+          <div class="col-md-8 col-3">
+            <ul class="list-inline user-chat-nav text-end mb-0">
+              <li class="list-inline-item d-none d-sm-inline-block">
+                <button class="btn btn-primary btn-sm" (click)="create()">
+                  <i class="bx bx-plus-circle"></i>
+                  Nuevo
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="text-center" *ngIf="!mostrar">
+          <div class="spinner-border text-primary m-1" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
+        <div class="table-responsive" *ngIf="mostrar">
+          <table class="table table-centered table-nowrap table-striped table-sm">
+            <thead class="bg-primary bg-soft border-bottom text-uppercase">
+              <tr>
+                <th class="align-middle">ID</th>
+                <th class="align-middle">Nombre</th>
+                <th class="align-middle">Descripción</th>
+                <th class="align-middle">Precio</th>
+                <th class="align-middle">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of dataProducts">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.price }}</td>
+                <td>
+                  <!-- Button trigger modal -->
+                  <button
+                    type="button"
+                    class="btn btn-warning btn-sm btn-rounded"
+                    (click)="edit(item)"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm btn-rounded ms-1"
+                    (click)="delete(item.id)"
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

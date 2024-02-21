@@ -1,10 +1,13 @@
 
 
 import { Component, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Product } from './products.model';
 import { ProductsService } from '../../services/products.service';
+import { AdvicesService } from '../../services/advices.service';
+
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modal-form-productos',
@@ -23,12 +26,7 @@ export class ModalFormProductosComponent implements OnInit {
     /**
      * variable para la creacion del formulario
      */
-    public formModal: FormGroup = this.formBuilder.group({
-      name: [null, [Validators.required]],
-      description: [null, [Validators.required]],
-      price: [null, [Validators.required]],
-      // Add other form controls as needed
-    });
+
     /**
      * variable para regresar el evento
      */
@@ -54,17 +52,21 @@ export class ModalFormProductosComponent implements OnInit {
      * Informacion de la empresa enviada desde empresas component
      */
     private data: any;
-  
+    
+    public productForm: FormGroup = new FormGroup({});
+
     public constructor (
       public bsModalRef: BsModalRef,
       public formBuilder: FormBuilder,
-      private ProductService: ProductsService,
+      private productService: ProductsService,
+      private advicesService: AdvicesService,
+      private toastr: ToastrService,
     ){}
 
 
 
   ngOnInit(): void {
-    this.crearForm();
+    this.createForm();
   }
 
   
@@ -77,12 +79,17 @@ export class ModalFormProductosComponent implements OnInit {
    * Funcion para crear el formulario
    * @returns form
    */
-  public crearForm() {
-    this.formModal = this.formBuilder.group({
-      name: [null, [Validators.required]],
-      description: [null, [Validators.required]],
-      price: [null, [Validators.required]],
-      // Add other form controls as needed
+  /**
+   * Products form.
+   */
+  public createForm() {
+    this.productForm = new FormGroup({
+      name: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, [Validators.required]),
+      price: new FormControl(null, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]), // Updated pattern for decimal numbers
+      provider_id: new FormControl(null, [Validators.required]),
+      type_id: new FormControl(null, [Validators.required]),
+      container_id: new FormControl(null, [Validators.required]),
     });
   }
 
@@ -97,68 +104,45 @@ export class ModalFormProductosComponent implements OnInit {
    * Funcion para enviar información para crear un
    * nuevo elemento
    */
-  public create(event: any){
-
-    this.mostrar = false;
-
-    let datos = this.dataForm();
-    this.mostrarError = false;
-    this.mensajeError = "";
-    event.target.disabled = true;
-
-    this.ProductService.create(datos).subscribe(
-      response => {
-        this.event.emit(response);
-        event.target.disabled = false;
-      },
-      error => {
-        this.mostrar = true;
-        this.mostrarError = true;
-        this.mensajeError = error;
-        event.target.disabled = false;
+    public createProduct() {
+      this.mostrar = false; 
+      if (this.productForm.valid) {
+        const productData = this.dataFormProduct();
+        this.productService.create(productData).subscribe(
+          (response) => {
+            console.log('Product created successfully:', response);
+            this.advicesService.mostrarAlerta('Product created successfully', true);
+            this.createForm();
+            this.mostrar = true; // Show confirmation toast
+            //this.createForm();
+            // You can add further handling here, like showing a success message or redirecting
+            
+          },
+          (error) => {
+            console.error('Error creating product:', error);
+            // Handle error appropriately, e.g., display error message to the user
+            this.toastr.error('Error creating product. Please try again later.', 'Error');
+          }
+        );
+      } else {
+        console.log('Form is invalid.');
+        // Display error messages to the user
+        this.toastr.error('Please fill in all required fields.', 'Error');
       }
-    )
-  }
-
-  private dataForm(): Product {
-    const product: Product = {
-      name: this.formModal.controls['name'].value,
-      description: this.formModal.controls['description'].value,
-      price: this.formModal.controls['price'].value,
-      // Add other fields as needed
-    };
-  
-    if (this.accion === 'edit') {
-      product.id = this.data.id;
     }
-  
-    return product;
-  }
 
-    /**
-   * Funcion para enviar información para editar un
-   * nuevo elemento
-   */
-    public edit(event: any) {
-      let datos = this.dataForm();
-      this.mostrarError = false;
-      this.mensajeError = "";
-      event.target.disabled = true;
-      this.mostrar = false;
-  
-      this.ProductService.edit(datos, this.data.id).subscribe(
-        response => {
-          this.event.emit(response);
-          event.target.disabled = false;
-        },
-        error => {
-          this.mostrarError = true;
-          this.mensajeError = error;
-          this.mostrar = true;
-          event.target.disabled = false;
-        }
-      )
+    private dataFormProduct(){
+      let datos = {
+        name: this.productForm.controls['name'].value,
+        description: this.productForm.controls['description'].value,
+        price: this.productForm.controls['price'].value,
+        provider_id: this.productForm.controls['provider_id'].value,
+        type_id: this.productForm.controls['type_id'].value,
+        container_id: this.productForm.controls['container_id'].value,
+      };
+      return datos;
     }
+
   
 
 }

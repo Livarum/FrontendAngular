@@ -5,6 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';  
 import { ReactiveFormsModule } from '@angular/forms'
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DataTablesModule } from "angular-datatables";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +42,9 @@ import { ModalFormProductosComponent } from './test/modal-form-productos/modal-f
     LayoutsModule,
     NgbModalModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
+    DataTablesModule.forRoot()
   ],
   providers: [
     AuthService,

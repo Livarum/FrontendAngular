@@ -1,40 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  email: string = '';
-  password: string = '';
+export class LoginComponent implements OnInit {
   loggedIn: boolean = false;
-  userName: string = '';
+  loginForm: FormGroup = new FormGroup({});
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {}
+
+  ngOnInit() {
+    this.initializeForm();
+  }
+
+  // Initialize loginForm
+  private initializeForm(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
+  }
+
+  get formControls() { return this.loginForm.controls; }
 
   login() {
-    this.authService.login(this.email, this.password).subscribe(
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    const { email, password } = this.loginForm.value;
+
+    this.authService.login(email, password).subscribe(
       response => {
-        // Handle successful login
         console.log('Login successful', response);
-
-        // Store the access token in local storage
         localStorage.setItem('token', response.token);
-
         this.loggedIn = true;
-
-        // Redirect to the home component
         this.router.navigate(['/home']);
-
       },
       error => {
-        // Handle login error
         console.error('Login failed', error);
       }
     );
   }
-
 }

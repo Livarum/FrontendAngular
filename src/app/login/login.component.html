@@ -1,11 +1,9 @@
-<!-- login.component.html -->
-<form *ngIf="!loggedIn" (ngSubmit)="login()">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" [(ngModel)]="email" required>
-  
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" [(ngModel)]="password" required>
-  
-    <button type="submit">Login</button>
-  </form>
-  
+<form *ngIf="!loggedIn" [formGroup]="loginForm" (ngSubmit)="login()">
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" formControlName="email">
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" formControlName="password">
+
+  <button type="submit" [disabled]="loginForm.invalid">Login</button>
+</form>

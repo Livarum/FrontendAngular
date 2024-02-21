@@ -1,70 +1,63 @@
-<!-- breadcrumb item -->
-<div class="row">
-  <div class="col-lg-12">
-    <div class="card">
-      <div class="card-header bg-primary bg-soft border-bottom text-uppercase">
-        <div class="row">
-          <div class="col-md-4 col-9">
-            <h4 class="mb-0 font-size-18">Productos</h4>
-          </div>
-          <div class="col-md-8 col-3">
-            <ul class="list-inline user-chat-nav text-end mb-0">
-              <li class="list-inline-item d-none d-sm-inline-block">
-                <button class="btn btn-primary btn-sm" (click)="create()">
-                  <i class="bx bx-plus-circle"></i>
-                  Nuevo
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="text-center" *ngIf="!mostrar">
-          <div class="spinner-border text-primary m-1" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
+<!-- test.component.html -->
 
-        <div class="table-responsive" *ngIf="mostrar">
-          <table class="table table-centered table-nowrap table-striped table-sm">
-            <thead class="bg-primary bg-soft border-bottom text-uppercase">
-              <tr>
-                <th class="align-middle">ID</th>
-                <th class="align-middle">Nombre</th>
-                <th class="align-middle">Descripción</th>
-                <th class="align-middle">Precio</th>
-                <th class="align-middle">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of dataProducts">
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.price }}</td>
-                <td>
-                  <!-- Button trigger modal -->
-                  <button
-                    type="button"
-                    class="btn btn-warning btn-sm btn-rounded"
-                    (click)="edit(item)"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-danger btn-sm btn-rounded ms-1"
-                    (click)="delete(item.id)"
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+<div class="container-fluid mt-3">
+
+  <div class="card">
+    <div class="card-header bg-primary bg-soft border-bottom text-uppercase">
+      <div class="row">
+        <div class="col-md-4 col-9">
+          <h4 class="mb-0 font-size-18">Products</h4>
+        </div>
+        <div class="col-md-8 col-3">
+          <ul class="list-inline user-chat-nav text-end mb-0">
+            <li class="list-inline-item d-none d-sm-inline-block">
+              <button class="btn btn-primary btn-sm" (click)="openModal()">
+                <i class="bx bx-plus-circle"></i>
+                Nuevo
+              </button>
+          </li>
+        </ul>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+      <table  datatable [dtOptions]="dtOptions" class="table">
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Container ID</th>
+            <th>Provider ID</th>
+            <th>Type ID</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of dataProducts">
+            <td>{{ product.product_id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.container_id }}</td>
+            <td>{{ product.provider_id }}</td>
+            <td>{{ product.type_id }}</td>
+            <td>{{ product.created_at | date:'dd-MM-YYYY hh:mm:ss' }}</td>
+            <td>{{ product.updated_at | date:'dd-MM-YYYY hh:mm:ss' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-6">
+      <!-- Footer content here -->
     </div>
   </div>
 </div>

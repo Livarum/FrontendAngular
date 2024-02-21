@@ -1,82 +1,95 @@
 <div class="modal-header bg-primary text-white">
-    <h5 class="modal-title mt-0">{{ title }}</h5>
+    <h5 class="modal-title mt-0">¡New Product Register!</h5>
     <button type="button" class="btn-close text-white" data-dismiss="modal" aria-label="Close" (click)="cerrarModal()">
         <span aria-hidden="true"></span>
     </button>
 </div>
 <div class="modal-body">
     <div class="text-center" *ngIf="!mostrar">
-        <div class="spinner-border text-primary m-1" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
+        <div class="spinner-border text-primary m-1" role="status"></div>
     </div>
-    <form [formGroup]="formModal" *ngIf="mostrar">
+    <form [formGroup]="productForm" *ngIf="mostrar">
         <div class="alert alert-danger" role="alert" *ngIf="mostrarError">
             {{ mensajeError }}
         </div>
-        <div class="row g-3">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="form-label requerido">Nombre *</label>
-                    <div>
-                        <input
-                            class="form-control"
-                            formControlName="name"
-                            placeholder="Ingresar Nombre"
-                            maxlength="255"
-                            [style]="{ width: '100%' }"
-                        />
+        <div class="row">
+            <!-- First Column -->
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="name" class="col-form-label">Name<span class="required">*</span></label>
+                        <input type="text" class="form-control form-control-sm" id="name" formControlName="name" placeholder="Enter a name">
+                        <!-- Validation -->
+                        <div *ngIf="productForm.get('name')?.invalid && (productForm.get('name')?.dirty || productForm.get('name')?.touched)" class="alert alert-danger small">
+                            <div *ngIf="productForm.get('name')?.errors?.['required']">Name is required.</div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <label for="type_id" class="col-form-label">Type ID<span class="required">*</span></label>
+                        <select class="form-control form-control-sm" id="type_id" formControlName="type_id">
+                            <option value="null" disabled selected>Select Type</option>
+                            <option value="1">Type 1</option>
+                            <option value="2">Type 2</option>
+                            <option value="3">Type 3</option>
+                            <option value="4">Type 4</option>
+                            <option value="5">Type 5</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="form-group">
-                    <label class="form-label requerido">Descripción *</label>
-                    <div>
-                        <textarea
-                            class="form-control"
-                            formControlName="description"
-                            placeholder="Ingresar Descripción"
-                            maxlength="255"
-                            [style]="{ width: '100%' }"
-                        ></textarea>
+            <!-- Second Column -->
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="price" class="col-form-label">Price<span class="required">*</span></label>
+                        <input type="text" class="form-control form-control-sm" id="price" formControlName="price" placeholder="Enter a price">
+                        <!-- Validation -->
+                        <div *ngIf="productForm.get('price')?.invalid && (productForm.get('price')?.dirty || productForm.get('price')?.touched)" class="alert alert-danger mt-1 small" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                            <div *ngIf="productForm.get('price')?.errors?.['required']">Price is required.</div>
+                            <div *ngIf="productForm.get('price')?.errors?.['pattern']">Please enter a valid price.</div>
+                        </div>                        
+                    </div>
+                    <div class="col-12 mt-2">
+                        <label for="container_id" class="col-form-label">Container ID<span class="required">*</span></label>
+                        <select class="form-control form-control-sm" id="container_id" formControlName="container_id">
+                            <option value="null" disabled selected>Select Container</option>
+                            <option value="1">Container 1</option>
+                            <option value="2">Container 2</option>
+                            <option value="3">Container 3</option>
+                            <option value="4">Container 4</option>
+                            <option value="5">Container 5</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="form-label requerido">Precio *</label>
-                    <div>
-                        <input
-                            class="form-control"
-                            formControlName="price"
-                            placeholder="Ingresar Precio"
-                            [style]="{ width: '100%' }"
-                        />
-                    </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <label for="provider_id" class="col-form-label">Provider ID<span class="required">*</span></label>
+                <select class="form-control form-control-sm" id="provider_id" formControlName="provider_id">
+                    <option value="null" disabled selected>Select Provider</option>
+                    <option value="1">Provider 1</option>
+                    <option value="2">Provider 2</option>
+                    <option value="3">Provider 3</option>
+                    <option value="4">Provider 4</option>
+                    <option value="5">Provider 5</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <label for="description" class="col-form-label">Description<span class="required">*</span></label>
+                <textarea class="form-control form-control-sm" id="description" formControlName="description" placeholder="Enter a description"></textarea>
+                <!-- Validation -->
+                <div *ngIf="productForm.get('description')?.invalid && (productForm.get('description')?.dirty || productForm.get('description')?.touched)" class="alert alert-danger mt-1 small">
+                    <div *ngIf="productForm.get('description')?.errors?.['required']">Description is required.</div>
                 </div>
             </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button
-        type="submit"
-        class="btn btn-primary"
-        *ngIf="accion == 'create'"
-        (click)="create($event)"
-        [disabled]="formModal.invalid"
-    >
-        Guardar
-    </button>
-    <button
-        type="submit"
-        class="btn btn-primary"
-        *ngIf="accion == 'edit'"
-        (click)="edit($event)"
-        [disabled]="formModal.invalid"
-    >
-        Editar
-    </button>
-    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarModal()">Cerrar</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="createProduct()" [disabled]="productForm.invalid">Guardar</button>
+    <button type="button" class="btn btn-primary btn-sm" *ngIf="accion == 'edit'" [disabled]="productForm.invalid">Editar</button>
+    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" (click)="cerrarModal()">Cerrar</button>
 </div>

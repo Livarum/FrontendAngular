@@ -3,6 +3,9 @@ export interface Product {
     name: string;
     description: string;
     price?: number;
+    provider_id?: number;
+    type_id?: number;
+    container_id?: number;
     // Add other fields as needed
 }
 
